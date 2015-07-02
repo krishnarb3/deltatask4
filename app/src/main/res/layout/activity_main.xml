@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/searchbutton"
+        android:src="@drawable/search"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_marginTop="15dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/newcontactbutton"
+        android:radius="5dp"
+        android:src="@drawable/plus"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchbar"
+        android:textSize="12sp"
+        android:hint="Number of Contacts"
+        android:layout_alignBottom="@+id/searchbutton"
+        android:layout_toRightOf="@+id/searchbutton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contactslist"
+        android:clickable="true"
+        android:background="#000000"
+        android:layout_below="@+id/searchbar"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/newcontactbutton" />
+
+
+</RelativeLayout>
