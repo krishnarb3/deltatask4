@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -16,9 +17,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 
 public class newcontactactivity extends ActionBarActivity
 {
+
     public static String contactname,contactnumber,contactaddress,contactemail,imagepath;
     EditText name,number,address,email;
     public static String TAG="TAG";
@@ -30,6 +37,25 @@ public class newcontactactivity extends ActionBarActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newcontactactivity);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.contacts);
+        File mFile1 = Environment.getExternalStorageDirectory();
+        String fileName ="contactimage.png";
+        File mFile2 = new File(mFile1,fileName);
+        try {
+            FileOutputStream outStream;
+            outStream = new FileOutputStream(mFile2);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        imagepath = mFile1.getAbsolutePath().toString()+"/"+fileName;
         imageView = (ImageView)findViewById(R.id.contactimage);
         imageView.setOnClickListener(new View.OnClickListener()
         {
@@ -37,7 +63,7 @@ public class newcontactactivity extends ActionBarActivity
             public void onClick(View view)
             {
                 Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 2);
+                startActivityForResult(intent,2);
             }
         });
         Bundle bundle = getIntent().getExtras();
@@ -76,17 +102,21 @@ public class newcontactactivity extends ActionBarActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri selectedImage = data.getData();
-                String[] filePath = { MediaStore.Images.Media.DATA };
-                Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePath[0]);
-                String picturePath = c.getString(columnIndex);
-                c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                imagepath = picturePath;
-                Log.d(TAG,picturePath + "");
-                imageView.setImageBitmap(thumbnail);
+
+
+                    Uri selectedImage = data.getData();
+                    String[] filePath = {MediaStore.Images.Media.DATA};
+                    Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePath[0]);
+                    String picturePath = c.getString(columnIndex);
+                    c.close();
+                    Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+
+                    imagepath = picturePath;
+                    Log.d(TAG, picturePath + "");
+                    imageView.setImageBitmap(thumbnail);
+
     }
 
     @Override

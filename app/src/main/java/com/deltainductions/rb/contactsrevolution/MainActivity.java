@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity implements contactsadapter.customButtonListener,contactsadapter.editButtonListener
 {
     public static String TAG="TAG";
-    ArrayList<String> contactnames=new ArrayList<String>(),contactnumbers = new ArrayList<String>(),contactemails = new ArrayList<String>(),contactaddresses = new ArrayList<String>();
+    ArrayList<String> contactnames=new ArrayList<String>(),contactnumbers = new ArrayList<String>(),contactemails = new ArrayList<String>(),contactaddresses = new ArrayList<String>(),contactimages = new ArrayList<String>();
     RelativeLayout layout;
     ImageView newcontact;
     databaseclass helper;
@@ -47,8 +47,9 @@ public class MainActivity extends ActionBarActivity implements contactsadapter.c
         contactnumbers = dataarray.get(1);
         contactaddresses = dataarray.get(2);
         contactemails = dataarray.get(3);
+        contactimages = dataarray.get(4);
         ListView listView = (ListView)findViewById(R.id.contactslist);
-        final contactsadapter adapter = new contactsadapter(getApplicationContext(),contactnames);
+        final contactsadapter adapter = new contactsadapter(getApplicationContext(),contactnames,contactimages);
         adapter.setCustomButtonListner(MainActivity.this);
         adapter.setEditButtonListener(MainActivity.this);
         listView.setAdapter(adapter);
@@ -65,6 +66,7 @@ public class MainActivity extends ActionBarActivity implements contactsadapter.c
                     intent.putExtra("number",contactnumbers.get(pos));
                     intent.putExtra("address",contactaddresses.get(pos));
                     intent.putExtra("email",contactemails.get(pos));
+                    intent.putExtra("image",contactimages.get(pos));
                     startActivity(intent);
                     //intent.putExtra("image",contactimages.get(pos));
 
@@ -96,7 +98,7 @@ public class MainActivity extends ActionBarActivity implements contactsadapter.c
         if (resultCode==1)
         {
             Bundle bundle = data.getExtras();
-            long id = helper.insert(bundle.getString("name"),bundle.getString("number"),bundle.getString("address"),bundle.getString("email"));
+            long id = helper.insert(bundle.getString("name"),bundle.getString("number"),bundle.getString("address"),bundle.getString("email"),bundle.getString("image"));
             dataarray = helper.getAllData();
             if(dataarray.size()>0)
             {
@@ -105,8 +107,9 @@ public class MainActivity extends ActionBarActivity implements contactsadapter.c
                 contactnumbers = dataarray.get(1);
                 contactaddresses = dataarray.get(2);
                 contactemails = dataarray.get(3);
+                contactimages = dataarray.get(4);
                 ListView listView = (ListView)findViewById(R.id.contactslist);
-                final contactsadapter adapter = new contactsadapter(getApplicationContext(),contactnames);
+                final contactsadapter adapter = new contactsadapter(getApplicationContext(),contactnames,contactimages);
                 adapter.setCustomButtonListner(MainActivity.this);
                 adapter.setEditButtonListener(MainActivity.this);
                 listView.setAdapter(adapter);
@@ -119,7 +122,7 @@ public class MainActivity extends ActionBarActivity implements contactsadapter.c
         if(resultCode==2)
         {
             Bundle bundle = data.getExtras();
-            helper.update(oldname,bundle.getString("name"),bundle.getString("number"),bundle.getString("address"),bundle.getString("email"));
+            helper.update(oldname,bundle.getString("name"),bundle.getString("number"),bundle.getString("address"),bundle.getString("email"),bundle.getString("image"));
 
             dataarray = helper.getAllData();
             Log.d(TAG,dataarray.toString());
@@ -129,8 +132,9 @@ public class MainActivity extends ActionBarActivity implements contactsadapter.c
                 contactnumbers = dataarray.get(1);
                 contactaddresses = dataarray.get(2);
                 contactemails = dataarray.get(3);
+                contactimages = dataarray.get(4);
                 ListView listView = (ListView)findViewById(R.id.contactslist);
-                final contactsadapter adapter = new contactsadapter(getApplicationContext(),contactnames);
+                final contactsadapter adapter = new contactsadapter(getApplicationContext(),contactnames,contactimages);
                 adapter.setCustomButtonListner(MainActivity.this);
                 adapter.setEditButtonListener(MainActivity.this);
                 listView.setAdapter(adapter);
@@ -172,6 +176,7 @@ public class MainActivity extends ActionBarActivity implements contactsadapter.c
             contactnumbers.remove(pos);
             contactemails.remove(pos);
             contactaddresses.remove(pos);
+            contactimages.remove(pos);
             deletename = value;
         }
         int status = helper.delete(value);
@@ -183,8 +188,9 @@ public class MainActivity extends ActionBarActivity implements contactsadapter.c
         contactnumbers = dataarray.get(1);
         contactaddresses = dataarray.get(2);
         contactemails = dataarray.get(3);
+        contactimages = dataarray.get(4);
         ListView listView = (ListView)findViewById(R.id.contactslist);
-        final contactsadapter adapter = new contactsadapter(getApplicationContext(),contactnames);
+        final contactsadapter adapter = new contactsadapter(getApplicationContext(),contactnames,contactimages);
         adapter.setCustomButtonListner(MainActivity.this);
         adapter.setEditButtonListener(MainActivity.this);
         listView.setAdapter(adapter);
@@ -201,7 +207,7 @@ public class MainActivity extends ActionBarActivity implements contactsadapter.c
             contactnumbers.remove(pos);
             contactemails.remove(pos);
             contactaddresses.remove(pos);
-
+            contactimages.remove(pos);
         }
         Intent i = new Intent(MainActivity.this,newcontactactivity.class);
         i.putExtra("Check",true);

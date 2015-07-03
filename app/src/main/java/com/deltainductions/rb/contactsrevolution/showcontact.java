@@ -1,5 +1,7 @@
 package com.deltainductions.rb.contactsrevolution;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -26,11 +28,14 @@ public class showcontact extends ActionBarActivity
         number = (TextView)findViewById(R.id.number);
         address = (TextView)findViewById(R.id.address);
         email = (TextView)findViewById(R.id.email);
+        image = (ImageView)findViewById(R.id.image);
         Bundle bundle = getIntent().getExtras();
         name.setText(bundle.getString("name"));
         number.setText(bundle.getString("number"));
         address.setText(bundle.getString("address"));
         email.setText(bundle.getString("email"));
+        Bitmap thumbnail = (BitmapFactory.decodeFile(bundle.getString("image")));
+        image.setImageBitmap(thumbnail);
     }
 
 
