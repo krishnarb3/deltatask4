@@ -56,6 +56,7 @@ class contactsadapter extends ArrayAdapter<String>
         ImageView imageView = (ImageView)view.findViewById(R.id.imageView);
         name.setText(newarray.get(position));
         Bitmap thumbnail = (BitmapFactory.decodeFile(contactimages.get(position)));
+        thumbnail = Bitmap.createScaledBitmap(thumbnail,120,120,true);
         imageView.setImageBitmap(thumbnail);
         Button button = (Button)view.findViewById(R.id.deletecontact);
         button.setTag(position);
